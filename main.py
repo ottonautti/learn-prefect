@@ -3,11 +3,11 @@ from prefect import flow
 
 
 @flow(log_prints=True)
-def main():
+def main(url: str = "https://example.com"):
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=False)
         page = browser.new_page()
-        page.goto("https://example.com")
+        page.goto(url)
         print("Page title:", page.title())
         browser.close()
 
