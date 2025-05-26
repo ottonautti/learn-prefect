@@ -14,27 +14,28 @@ push: null
 
 # pull section allows you to provide instructions for cloning this project in remote locations
 pull:
-- prefect.deployments.steps.git_clone:
-  repository: 'https://github.com/ottonautti/learn-prefect.git'
-  branch: 'master'
-- prefect.deployments.steps.pip_install_requirements:
-  directory: .
-  requirements_file: requirements.txt
-# install playwright browsers
-- prefect.deployments.steps.run_shell_script:
-  script: python -m playwright install chromium --with-deps
+    - prefect.deployments.steps.git_clone:
+          id: clone-step
+          repository: "https://github.com/ottonautti/learn-prefect.git"
+          branch: "master"
+    - prefect.deployments.steps.pip_install_requirements:
+          directory: "{{ clone-step.directory }}"
+          requirements_file: requirements.txt
+      # install playwright browsers
+    - prefect.deployments.steps.run_shell_script:
+          script: python -m playwright install chromium --with-deps
 
 # the deployments section allows you to provide configuration for deploying flows
 deployments:
-- name: null
-  version: null
-  tags: []
-  description: null
-  schedule: {}
-  flow_name: null
-  entrypoint: null
-  parameters: {}
-  work_pool:
-    name: null
-    work_queue_name: null
-    job_variables: {}
+    - name: null
+      version: null
+      tags: []
+      description: null
+      schedule: null
+      flow_name: null
+      entrypoint: null
+      parameters: {}
+      work_pool:
+          name: temp-pool
+          work_queue_name: null
+          job_variables: {}

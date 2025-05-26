@@ -5,7 +5,7 @@ from prefect import flow
 @flow(log_prints=True)
 def main(url: str = "https://example.com"):
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=False)
+        browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         page.goto(url)
         print("Page title:", page.title())
